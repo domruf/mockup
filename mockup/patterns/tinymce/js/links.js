@@ -687,8 +687,14 @@ define([
         this.linkType = 'anchor';
         this.linkTypes.anchor.set(href.substring(1));
       } else {
-        this.linkType = 'external';
-        this.linkTypes.external.set(href);
+        var resp = $.ajax({async: false, url: href+'/uuid'});
+        if(resp.status == 200){
+            this.linkType = 'internal';
+            this.linkTypes.internal.set(resp.responseText);
+        }else{
+            this.linkType = 'external';
+            this.linkTypes.external.set(href);
+        }
       }
     },
 
